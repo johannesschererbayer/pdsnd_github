@@ -18,28 +18,28 @@ def get_filters():
     print('-'*80)
     print('-'*80)
     print('Hello! Let\'s explore some US bikeshare data!')
-## My code starts here     
+## My code starts here
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     city = input("Select one of these cities: 'chicago', 'new york city', 'washington', by entering its name:  ").lower()
     while city != 'chicago' and city != 'new york city' and city != 'washington':
-        print('                  ---- input error----invalid option----please try again----') 
+        print('                  ---- input error----invalid option----please try again----')
         city = input("Select one of these cities: 'chicago', 'new york city', 'washington', by entering its name:  ").lower()
-            
+
     # TO DO: get user input for month (all, january, february, ... , june)
     month = input("Select either one month from 'january' to 'june' or enter 'all' for displaying the results for all months:  ").lower()
     while month != 'january' and month != 'february' and month != 'march' and month != 'april' and month != 'may' and month != 'june' and month != 'all':
-        print('                  ---- input error----invalid option----please try again----') 
+        print('                  ---- input error----invalid option----please try again----')
         month = input("Select either one month from 'january' to 'june' or enter 'all' for displaying the results for all months:  ").lower()
 
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     day = input("Enter either one day of week or enter 'all' for displaying the results for all days of week:  ").lower()
     while day != 'monday' and day != 'tuesday' and day != 'wednesday' and day != 'thursday' and day != 'friday' and day != 'saturday' and day != 'sunday' and day != 'all':
-        print('                  ---- input error----invalid option----please try again----') 
+        print('                  ---- input error----invalid option----please try again----')
         day = input("Enter either one day of week or enter 'all' for displaying the results for all days of week:  ").lower()
     print('-'*80)
     print("DATA ANALYSIS for --- City: {} --- Month: {} --- Weekday: {} ---:".format(city.capitalize() ,month.capitalize() ,day.capitalize()))
 
-## here ends my code    
+## here ends my code
     print('  '+'-'*40)
     return city, month, day
 
@@ -58,24 +58,20 @@ def load_data(city, month, day):
     # load data file into a dataframe
 ## here starts my code
     df = pd.read_csv(CITY_DATA[city])
-    ## print(df.head())
-    ## print(df.info()) 
     # convert the Start Time column to datetime
-    df['Start Time'] = pd.to_datetime(df['Start Time']) 
+    df['Start Time'] = pd.to_datetime(df['Start Time'])
     # extract month and day of week from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.weekday_name
-    ### print(df.head())
-    ### print(df.info()) 
     # filter by month if applicable
     if month != 'all':
         # use the index of the months list to get the corresponding int
         months = ['january', 'february', 'march', 'april', 'may', 'june']
-        month = months.index(month) + 1 
-    
+        month = months.index(month) + 1
+
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
-         
+
     # filter by day of week if applicable
     if day != 'all':
         # filter by day of week to create the new dataframe
@@ -88,12 +84,12 @@ def load_data(city, month, day):
         first_row += 5
         checkdata = input('\nWould you like to see the next 5 data rows? Enter yes or no: ')
     print('  '+'-'*40)
-    
-    # adding additional columns 'start hour' and 'Trip' for later evaluation of most common start hour and station combination 
+
+    # adding additional columns 'start hour' and 'Trip' for later evaluation of most common start hour and station combination
     df['Start Hour'] = df['Start Time'].dt.hour
     df['Trip']='FROM ' + df['Start Station'] + ' TO ' + df['End Station']
-   
-    
+
+
 ## here ends my code
     return df
 
@@ -107,7 +103,7 @@ def time_stats(df, month, day):
     # TO DO: display the most common month if all months selected
     if month == 'all':
         print('  most common month: %s ' % df['month'].mode()[0])
-    
+
     # TO DO: display the most common day of week if all days selected
     if day == 'all':
         print('  most common day of week: %s ' % df['day_of_week'].mode()[0])
@@ -131,7 +127,7 @@ def station_stats(df):
     print('  most commonly used end station: %s ' % df['End Station'].mode()[0])
     # TO DO: display most frequent combination of start station and end station trip
     print('  most frequent combination: %s ' % df['Trip'].mode()[0])
-## here ends my code   
+## here ends my code
     print("\n      <This took %s seconds>" % (time.time() - start_time))
     print('  '+'-'*40)
 
@@ -162,14 +158,14 @@ def user_stats(df, city):
     print(df['User Type'].value_counts())
 
     # TO DO: Display counts of gender
-    if city != 'washington': 
+    if city != 'washington':
         print('\nGender      count')
         print(df['Gender'].value_counts())
         # TO DO: Display earliest, most recent, and most common year of birth
         print('\n  earliest year of birth: %s ' % int(df['Birth Year'].min()))
         print('  most recent year of birth: %s ' % int(df['Birth Year'].max()))
         print('  most common year of birth: %s ' % int(df['Birth Year'].mode()))
-## here ends my code    
+## here ends my code
     print("\n      <This took %s seconds>" % (time.time() - start_time))
     print('-'*80)
 
@@ -179,9 +175,6 @@ def main():
         city, month, day = get_filters()
         df = load_data(city, month, day)
        
-        #checkdata = input('\nWould you like to restart? Enter yes or no.\n')
-        
-        
         time_stats(df, month, day)
         station_stats(df)
         trip_duration_stats(df)
