@@ -111,6 +111,7 @@ def time_stats(df, month, day):
     # TO DO: display the most common start hour
     print('  most common start hour: %s ' % df['Start Hour'].mode()[0])
 ## here ends my code
+    # ACTION: display calculation time
     print("\n      <This took %s seconds>" % (time.time() - start_time))
     print('  '+'-'*40)
 
@@ -128,6 +129,7 @@ def station_stats(df):
     # TO DO: display most frequent combination of start station and end station trip
     print('  most frequent combination: %s ' % df['Trip'].mode()[0])
 ## here ends my code
+    # ACTION: display calculation time
     print("\n      <This took %s seconds>" % (time.time() - start_time))
     print('  '+'-'*40)
 
@@ -143,6 +145,7 @@ def trip_duration_stats(df):
     # TO DO: display mean travel time
     print('  the mean travel time is %s min' % (df['Trip Duration'].mean()/60))
 ## here ends my code
+    # ACTION: display calculation time
     print("\n      <This took %s seconds>" % (time.time() - start_time))
     print('  '+'-'*40)
 
@@ -166,6 +169,7 @@ def user_stats(df, city):
         print('  most recent year of birth: %s ' % int(df['Birth Year'].max()))
         print('  most common year of birth: %s ' % int(df['Birth Year'].mode()))
 ## here ends my code
+    # ACTION: display calculation time
     print("\n      <This took %s seconds>" % (time.time() - start_time))
     print('-'*80)
 
@@ -174,7 +178,7 @@ def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
-       
+
         time_stats(df, month, day)
         station_stats(df)
         trip_duration_stats(df)
